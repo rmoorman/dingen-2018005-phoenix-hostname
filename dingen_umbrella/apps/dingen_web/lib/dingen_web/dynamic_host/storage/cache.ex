@@ -28,12 +28,11 @@ defmodule DingenWeb.DynamicHost.Storage.Cache do
     {:ok, state}
   end
 
-  def handle_call({:contains, host}, _from, state) do
-    contains = case :ets.lookup(@ets_table, host) do
+  def contains?(host) do
+    case :ets.lookup(@ets_table, host) do
       [{_host}] -> true
       _ -> false
     end
-    {:reply, contains, state}
   end
 
   def handle_info(:refresh, state) do
