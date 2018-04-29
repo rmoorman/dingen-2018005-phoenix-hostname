@@ -1,6 +1,8 @@
 defmodule DingenWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :dingen_web
 
+  plug DingenWeb.DynamicHost.Plug
+
   socket "/socket", DingenWeb.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.

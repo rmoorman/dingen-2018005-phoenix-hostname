@@ -10,10 +10,13 @@ defmodule Dingen.Application do
   use Application
 
   def start(_type, _args) do
-    import Supervisor.Spec, warn: false
+    allowed_hosts = Application.get_env(:dingen, :initial_allowed_hosts)
 
-    Supervisor.start_link([
-      
-    ], strategy: :one_for_one, name: Dingen.Supervisor)
+    children = [
+      {Dingen.AllowedHosts, allowed_hosts},
+    ]
+
+    supervisor_opts = [strategy: :one_for_one, name: Dingen.Supervisor]
+    Supervisor.start_link(children, supervisor_opts)
   end
 end

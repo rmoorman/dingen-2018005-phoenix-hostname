@@ -2,14 +2,17 @@ defmodule DingenWeb.Application do
   use Application
 
   def start(_type, _args) do
-    import Supervisor.Spec
-
     # Define workers and child supervisors to be supervised
     children = [
+      # Start the cache first as we need it for the host
+      # validation within the # endpoint's plugs
+      DingenWeb.DynamicHost.Storage.Cache,
+
       # Start the endpoint when the application starts
-      supervisor(DingenWeb.Endpoint, []),
+      {DingenWeb.Endpoint, []},
+
       # Start your own worker by calling: DingenWeb.Worker.start_link(arg1, arg2, arg3)
-      # worker(DingenWeb.Worker, [arg1, arg2, arg3]),
+      # {DingenWeb.Worker, [arg1, arg2, arg3]},
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
