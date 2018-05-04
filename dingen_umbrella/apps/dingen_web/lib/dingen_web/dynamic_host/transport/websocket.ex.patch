@@ -1,0 +1,33 @@
+--- websocket.ex.original	2018-05-04 18:46:57.000000000 +0200
++++ websocket.ex	2018-05-04 18:47:42.000000000 +0200
+@@ -1,4 +1,4 @@
+-defmodule Phoenix.Transports.WebSocket do
++defmodule DingenWeb.DynamicHost.Transport.WebSocket do
+   @moduledoc """
+   Socket transport for websocket clients.
+ 
+@@ -58,6 +58,7 @@
+   def default_config() do
+     [serializer: [{Phoenix.Transports.WebSocketSerializer, "~> 1.0.0"},
+                   {Phoenix.Transports.V2.WebSocketSerializer, "~> 2.0.0"}],
++     cowboy: Phoenix.Endpoint.CowboyWebSocket,
+      timeout: 60_000,
+      transport_log: false]
+   end
+@@ -65,6 +66,7 @@
+   ## Callbacks
+ 
+   import Plug.Conn, only: [fetch_query_params: 1, send_resp: 3]
++  import DingenWeb.DynamicHost.Transport, only: [check_origin: 4]
+ 
+   alias Phoenix.Socket.Broadcast
+   alias Phoenix.Socket.Transport
+@@ -79,7 +81,7 @@
+       |> fetch_query_params()
+       |> Transport.transport_log(opts[:transport_log])
+       |> Transport.force_ssl(handler, endpoint, opts)
+-      |> Transport.check_origin(handler, endpoint, opts)
++      |> check_origin(handler, endpoint, opts)
+ 
+     case conn do
+       %{halted: false} = conn ->
