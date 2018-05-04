@@ -4,9 +4,9 @@ defmodule DingenWeb.Application do
   def start(_type, _args) do
     # Define workers and child supervisors to be supervised
     children = [
-      # Start the dynamic host storage first as we need it for the host
-      # validation within the # endpoint's plugs
-      DingenWeb.DynamicHost.Storage,
+      # Start the dynamic origin storage first as we need it for
+      # the origin validation within the endpoint's plugs
+      DingenWeb.DynamicOrigin.Storage,
 
       # Start the endpoint when the application starts
       {DingenWeb.Endpoint, []},

@@ -1,5 +1,5 @@
-defmodule DingenWeb.DynamicHost.Transport do
-  alias DingenWeb.DynamicHost
+defmodule DingenWeb.DynamicOrigin.Transport do
+  import DingenWeb.DynamicOrigin, only: [origin_allowed?: 1]
 
   require Logger
 
@@ -26,7 +26,7 @@ defmodule DingenWeb.DynamicHost.Transport do
     cond do
       is_nil(origin) ->
         conn
-      origin_allowed?(URI.parse(origin)) ->
+      origin_allowed?(origin) ->
         conn
       true ->
         Logger.error "Websocket request's origin is not allowed; origin: #{origin}"
@@ -35,9 +35,4 @@ defmodule DingenWeb.DynamicHost.Transport do
         |> halt()
     end
   end
-
-  defp origin_allowed?(%URI{host: nil}),
-    do: true
-  defp origin_allowed?(%URI{host: origin_host}),
-    do: DynamicHost.host_allowed?(origin_host)
 end

@@ -10,10 +10,10 @@ defmodule Dingen.Application do
   use Application
 
   def start(_type, _args) do
-    allowed_hosts = Application.get_env(:dingen, :initial_allowed_hosts)
+    allowed_origins = Application.get_env(:dingen, :initial_allowed_origins)
 
     children = [
-      {Dingen.AllowedHosts, allowed_hosts},
+      {Dingen.AllowedOrigins, allowed_origins},
     ]
 
     supervisor_opts = [strategy: :one_for_one, name: Dingen.Supervisor]

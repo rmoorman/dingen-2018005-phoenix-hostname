@@ -2,7 +2,7 @@
 +++ websocket.ex	2018-05-04 18:47:42.000000000 +0200
 @@ -1,4 +1,4 @@
 -defmodule Phoenix.Transports.WebSocket do
-+defmodule DingenWeb.DynamicHost.Transport.WebSocket do
++defmodule DingenWeb.DynamicOrigin.Transport.WebSocket do
    @moduledoc """
    Socket transport for websocket clients.
  
@@ -18,7 +18,7 @@
    ## Callbacks
  
    import Plug.Conn, only: [fetch_query_params: 1, send_resp: 3]
-+  import DingenWeb.DynamicHost.Transport, only: [check_origin: 4]
++  import DingenWeb.DynamicOrigin.Transport, only: [check_origin: 4]
  
    alias Phoenix.Socket.Broadcast
    alias Phoenix.Socket.Transport

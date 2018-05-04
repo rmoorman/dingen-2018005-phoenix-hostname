@@ -1,7 +1,7 @@
 defmodule DingenWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :dingen_web
 
-  plug DingenWeb.DynamicHost.Plug
+  plug DingenWeb.DynamicOrigin.Plug
 
   socket "/socket", DingenWeb.UserSocket
 

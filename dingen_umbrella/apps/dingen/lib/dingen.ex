@@ -7,7 +7,7 @@ defmodule Dingen do
   if it comes from the database, an external API or others.
   """
 
-  defdelegate list_allowed_hosts(), to: Dingen.AllowedHosts, as: :list
-  defdelegate insert_allowed_host(host), to: Dingen.AllowedHosts, as: :insert
-  defdelegate delete_allowed_host(host), to: Dingen.AllowedHosts, as: :delete
+  defdelegate list_allowed_origins(), to: Dingen.AllowedOrigins, as: :list
+  defdelegate insert_allowed_origin(origin), to: Dingen.AllowedOrigins, as: :insert
+  defdelegate delete_allowed_origin(origin), to: Dingen.AllowedOrigins, as: :delete
 end

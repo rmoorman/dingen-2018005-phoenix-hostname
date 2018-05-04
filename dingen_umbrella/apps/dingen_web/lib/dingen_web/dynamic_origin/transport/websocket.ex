@@ -1,4 +1,4 @@
-defmodule DingenWeb.DynamicHost.Transport.WebSocket do
+defmodule DingenWeb.DynamicOrigin.Transport.WebSocket do
   @moduledoc """
   Socket transport for websocket clients.
 
@@ -66,7 +66,7 @@ defmodule DingenWeb.DynamicHost.Transport.WebSocket do
   ## Callbacks
 
   import Plug.Conn, only: [fetch_query_params: 1, send_resp: 3]
-  import DingenWeb.DynamicHost.Transport, only: [check_origin: 4]
+  import DingenWeb.DynamicOrigin.Transport, only: [check_origin: 4]
 
   alias Phoenix.Socket.Broadcast
   alias Phoenix.Socket.Transport

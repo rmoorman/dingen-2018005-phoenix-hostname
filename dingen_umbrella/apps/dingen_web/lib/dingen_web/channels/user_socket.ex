@@ -6,7 +6,7 @@ defmodule DingenWeb.UserSocket do
 
   ## Transports
   #transport :websocket, Phoenix.Transports.WebSocket
-  transport :websocket, DingenWeb.DynamicHost.Transport.WebSocket
+  transport :websocket, DingenWeb.DynamicOrigin.Transport.WebSocket
   # transport :longpoll, Phoenix.Transports.LongPoll
 
   # Socket params are passed from the client and can
