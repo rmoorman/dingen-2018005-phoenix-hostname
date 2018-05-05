@@ -2,7 +2,8 @@ defmodule DingenWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", DingenWeb.RoomChannel
+  #channel "room:*", DingenWeb.RoomChannel
+  channel "topic:*", DingenWeb.TopicChannel
 
   ## Transports
   #transport :websocket, Phoenix.Transports.WebSocket
