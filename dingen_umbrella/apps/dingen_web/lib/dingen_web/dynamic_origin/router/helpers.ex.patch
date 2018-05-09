@@ -1,0 +1,93 @@
+--- helpers.ex.original	2018-05-05 18:48:27.000000000 +0200
++++ helpers.ex	2018-05-06 10:11:30.000000000 +0200
+@@ -1,4 +1,4 @@
+-defmodule Phoenix.Router.Helpers do
++defmodule DingenWeb.DynamicOrigin.Router.Helpers do
+   # Module that generates the routing helpers.
+   @moduledoc false
+ 
+@@ -9,8 +9,8 @@
+   @doc """
+   Callback invoked by url generated in each helper module.
+   """
+-  def url(_router, %Conn{private: private}) do
+-    private.phoenix_endpoint.url
++  def url(_router, %Conn{} = conn) do
++    request_origin(conn)
+   end
+ 
+   def url(_router, %Socket{endpoint: endpoint}) do
+@@ -59,8 +59,25 @@
+       "when building path for #{inspect router}, got: #{inspect other}"
+   end
+ 
++  def static_url(%Conn{private: %{phoenix_endpoint: endpoint}} = conn, path) do
++    request_origin(conn) <> endpoint.static_path(path)
++  end
++
+   ## Helpers
+ 
++  defp request_origin(%Conn{} = conn) do
++    IO.iodata_to_binary([
++      to_string(conn.scheme),
++      "://",
++      conn.host,
++      request_url_port(conn.scheme, conn.port),
++    ])
++  end
++
++  defp request_url_port(:http, 80), do: ""
++  defp request_url_port(:https, 443), do: ""
++  defp request_url_port(_, port), do: [?:, Integer.to_string(port)]
++
+   defp build_own_forward_path(conn, router, path) do
+     case Map.fetch(conn.private, router) do
+       {:ok, {local_script, _}} ->
+@@ -123,14 +140,14 @@
+       Generates the connection/endpoint base URL without any path information.
+       """
+       def url(data) do
+-        Phoenix.Router.Helpers.url(unquote(env.module), data)
++        DingenWeb.DynamicOrigin.Router.Helpers.url(unquote(env.module), data)
+       end
+ 
+       @doc """
+       Generates the path information including any necessary prefix.
+       """
+       def path(data, path) do
+-        Phoenix.Router.Helpers.path(unquote(env.module), data, path)
++        DingenWeb.DynamicOrigin.Router.Helpers.path(unquote(env.module), data, path)
+       end
+ 
+       @doc """
+@@ -151,8 +168,8 @@
+       @doc """
+       Generates url to a static asset given its file path.
+       """
+-      def static_url(%Conn{private: private} = conn, path) do
+-        static_url(private.phoenix_endpoint, path)
++      def static_url(%Conn{} = conn, path) do
++        DingenWeb.DynamicOrigin.Router.Helpers.static_url(conn, path)
+       end
+ 
+       def static_url(%Socket{endpoint: endpoint} = conn, path) do
+@@ -188,7 +205,7 @@
+       end
+     end
+ 
+-    Module.create(Module.concat(env.module, Helpers), code,
++    Module.create(Module.concat(env.module, DynamicOriginHelpers), code,
+                   line: env.line, file: env.file)
+   end
+ 
+@@ -273,8 +290,8 @@
+ 
+     [quote @anno do
+       defp raise_route_error(unquote(helper), suffix, arity, action) do
+-        Phoenix.Router.Helpers.raise_route_error(__MODULE__, "#{unquote(helper)}_#{suffix}",
+-                                                 arity, action, unquote(routes))
++        DingenWeb.DynamicOrigin.Router.Helpers.raise_route_error(__MODULE__, "#{unquote(helper)}_#{suffix}",
++                                                                          arity, action, unquote(routes))
+       end
+     end | catch_alls]
+   end

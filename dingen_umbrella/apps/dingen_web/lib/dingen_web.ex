@@ -21,7 +21,8 @@ defmodule DingenWeb do
     quote do
       use Phoenix.Controller, namespace: DingenWeb
       import Plug.Conn
-      import DingenWeb.Router.Helpers
+      #import DingenWeb.Router.Helpers
+      import DingenWeb.Router.DynamicOriginHelpers
       import DingenWeb.Gettext
     end
   end
@@ -37,7 +38,8 @@ defmodule DingenWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import DingenWeb.Router.Helpers
+      #import DingenWeb.Router.Helpers
+      import DingenWeb.Router.DynamicOriginHelpers
       import DingenWeb.ErrorHelpers
       import DingenWeb.Gettext
     end
@@ -46,6 +48,7 @@ defmodule DingenWeb do
   def router do
     quote do
       use Phoenix.Router
+      use DingenWeb.DynamicOrigin.Router
       import Plug.Conn
       import Phoenix.Controller
     end
